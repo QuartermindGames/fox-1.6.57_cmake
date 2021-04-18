@@ -7,8 +7,6 @@ include(CheckFunctionExists)
 
 file(GLOB FOX_SOURCE_FILES src/*.cpp src/*.h)
 
-include_directories(include/)
-
 add_library(FOX-1.6 STATIC ${FOX_SOURCE_FILES})
 
 check_include_file(GL/gl.h HAVE_GL_H)
@@ -23,6 +21,8 @@ check_function_exists(strtoull HAVE_STRTOULL)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/FXBuildConfig.h)
 
 target_include_directories(FOX-1.6 PRIVATE src/)
+target_include_directories(FOX-1.6 PUBLIC include/)
+target_link_directories(FOX-1.6 PUBLIC lib/)
 target_compile_definitions(FOX-1.6 PRIVATE UNICODE)
 if(UNIX)
     target_link_libraries(FOX-1.6 X11 Xi Xxf86vm pthread)
