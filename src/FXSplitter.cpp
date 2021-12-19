@@ -131,8 +131,8 @@ FXSplitter::FXSplitter(FXComposite* p,FXObject* tgt,FXSelector sel,FXuint opts,F
 
 // Get default width
 FXint FXSplitter::getDefaultWidth(){
-  register FXWindow* child;
-  register FXint wmax,w,numc;
+  FXWindow* child;
+  FXint wmax,w,numc;
   wmax=numc=0;
   if(options&SPLITTER_VERTICAL){
     for(child=getFirst(); child; child=child->getNext()){
@@ -436,8 +436,8 @@ void FXSplitter::moveHSplit(FXint pos){
 
 // Move the vertical split intelligently
 void FXSplitter::moveVSplit(FXint pos){
-  register FXint smin,smax;
-  register FXuint hints;
+  FXint smin,smax;
+  FXuint hints;
   FXASSERT(window);
   hints=window->getLayoutHints();
   if(options&SPLITTER_REVERSED){

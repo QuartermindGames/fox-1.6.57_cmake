@@ -666,7 +666,7 @@ FXlong fxgetticks(){
 #if defined(__GNUC__) && defined(__linux__) && defined(__x86_64__)
 extern FXAPI FXlong fxgetticks();
 FXlong fxgetticks(){
-  register FXuint a,d;
+  FXuint a,d;
   asm volatile("rdtsc" : "=a" (a), "=d" (d));
 //asm volatile("rdtscp" : "=a" (a), "=d" (d): : "%ecx");        // Serializing version (%ecx has processor id)
   return ((FXulong)a) | (((FXulong)d)<<32);
