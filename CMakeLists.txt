@@ -26,6 +26,7 @@ target_link_directories(FOX-1.6 PUBLIC lib/)
 target_compile_definitions(FOX-1.6 PRIVATE UNICODE)
 if(UNIX)
     target_link_libraries(FOX-1.6 X11 Xi Xxf86vm pthread)
+    target_compile_options(FOX-1.6 PRIVATE -Wno-register)
 endif(UNIX)
 
 set_target_properties(FOX-1.6 PROPERTIES
