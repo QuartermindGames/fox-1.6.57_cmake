@@ -113,42 +113,52 @@ FXbool FXGLCanvas::isShared() const { return sgnext!=this; }
 
 
 // Create X window (GL CANVAS)
-void FXGLCanvas::create(){
-  FXWindow::create();
+void FXGLCanvas::create()
+{
+	FXWindow::create();
 #ifdef HAVE_GL_H
-  if(!ctx){
-    void *sharedctx=NULL;
+	if ( !ctx )
+	{
+		void *sharedctx = NULL;
 
-    // Must have GL info available
-    if(!visual->getInfo()){
-      throw FXWindowException("unable to create GL window.");
-      }
+		// Must have GL info available
+		if ( !visual->getInfo() )
+		{
+			throw FXWindowException( "unable to create GL window." );
+		}
 
-    // Sharing display lists with other context
-    if(sgnext!=this){
+		// Sharing display lists with other context
+		if ( sgnext != this )
+		{
 
-      // Find another member of the group which is already created, and get its context
-      FXGLCanvas *canvas=sgnext;
-      while(canvas!=this){
-        sharedctx=canvas->ctx;
-        if(sharedctx) break;
-        canvas=canvas->sgnext;
-        }
+			// Find another member of the group which is already created, and get its context
+			FXGLCanvas *canvas = sgnext;
+			while ( canvas != this )
+			{
+				sharedctx = canvas->ctx;
+				if ( sharedctx ) break;
+				canvas = canvas->sgnext;
+			}
 
-      // The visuals have to match, the book says...
-      if(sgnext->getVisual()!=canvas->getVisual()){
-        throw FXWindowException("unable to create GL window.");
-        }
-      }
+			// The visuals have to match, the book says...
+			if ( sgnext->getVisual() != canvas->getVisual() )
+			{
+				throw FXWindowException( "unable to create GL window." );
+			}
+		}
 
-#ifndef WIN32
+		ctx = sharedctx;
 
-    // Make context
-    ctx=glXCreateContext((Display*)getApp()->getDisplay(),(XVisualInfo*)visual->getInfo(),(GLXContext)sharedctx,TRUE);
-    if(!ctx){
-      throw FXWindowException("unable to create GL window.");
-      }
-
+#	ifndef WIN32
+		// Make context
+		if ( ctx == nullptr )
+		{
+			ctx = glXCreateContext( ( Display * ) getApp()->getDisplay(), ( XVisualInfo * ) visual->getInfo(), ( GLXContext ) sharedctx, TRUE );
+			if ( !ctx )
+			{
+				throw FXWindowException( "unable to create GL window." );
+			}
+		}
 #else
 
     // Make that the pixel format of the device context
@@ -158,18 +168,24 @@ void FXGLCanvas::create(){
       }
 
     // Make context
-    ctx=(void*)wglCreateContext(hdc);
-    if(!ctx){
-      throw FXWindowException("unable to create GL window.");
-      }
+	  if ( ctx == nullptr )
+	  {
+		  ctx = ( void * ) wglCreateContext( hdc );
+		  if ( !ctx )
+		  {
+			  throw FXWindowException( "unable to create GL window." );
+		  }
 
-    // I hope I didn't get this backward; the new context obviously has no
-    // display lists yet, but the old one may have, as it has already been around
-    // for a while.  If you see this fail and can't explain why, then that might
-    // be what's going on.  Report this to jeroen@fox-toolkit.org
-    if(sharedctx && !wglShareLists((HGLRC)sharedctx,(HGLRC)ctx)){
-      throw FXWindowException("unable to create GL window.");
-      }
+		  // I hope I didn't get this backward; the new context obviously has no
+		  // display lists yet, but the old one may have, as it has already been around
+		  // for a while.  If you see this fail and can't explain why, then that might
+		  // be what's going on.  Report this to jeroen@fox-toolkit.org
+		  if ( sharedctx && !wglShareLists( ( HGLRC ) sharedctx, ( HGLRC ) ctx ) )
+		  {
+			  throw FXWindowException( "unable to create GL window." );
+		  }
+	  }
+
     ::ReleaseDC((HWND)xid,hdc);
 
 #endif
