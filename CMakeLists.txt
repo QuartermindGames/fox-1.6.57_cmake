@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.23)
 
 project(FOX-1.6)
 
+set(CMAKE_CXX_STANDARD 11)
+
 file(GLOB FOX_SOURCE_FILES src/*.cpp src/*.h)
 
 include(CheckIncludeFileCXX)
