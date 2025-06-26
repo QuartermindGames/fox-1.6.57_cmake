@@ -424,7 +424,7 @@ void FXGLViewer::create(){
   // Set up OpenGL environment
   glsetup();
 
-  // drag type for color
+  // Register drag type for color
   if(!colorType){colorType=getApp()->registerDragType(colorTypeName);}
   if(!objectType){objectType=getApp()->registerDragType(objectTypeName);}
 
@@ -2420,7 +2420,7 @@ long FXGLViewer::onCmdPrintImage(FXObject*,FXSelector,void*){
 
       // Try open printer
       if(!pdc.beginPrint(printer)){
-        FXMessageBox::error(this,MBOX_OK,tr("Printer Error"),"%s",tr("Unable to print."));
+        FXMessageBox::error(this,MBOX_OK,tr("Printer Error"),tr("Unable to print."));
         return 1;
         }
 
@@ -2595,7 +2595,7 @@ long FXGLViewer::onCmdPrintVector(FXObject*,FXSelector,void*){
     dlg.getPrinter(printer);
     FXDCPrint pdc(getApp());
     if(!pdc.beginPrint(printer)){
-      FXMessageBox::error(this,MBOX_OK,tr("Printer Error"),"%s",tr("Unable to print."));
+      FXMessageBox::error(this,MBOX_OK,tr("Printer Error"),tr("Unable to print."));
       return 1;
       }
 

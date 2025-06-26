@@ -607,7 +607,7 @@ fnd:*pn=item;
 
 
 void fxenumWNetContainerResource(NETRESOURCE* netResource,FXObjectListOf<FXStringObject>& netResourceList,DWORD openEnumScope){
-//  Comments are mine, unless indicated otherwise. - Daniï¿½l Hï¿½rchner <dbjh@gmx.net>
+//  Comments are mine, unless indicated otherwise. - Daniël Hörchner <dbjh@gmx.net>
 //
 //  Passing the value RESOURCE_GLOBALNET for openEnumScope will make this
 //  function search recursively through the network shares for disk resources.

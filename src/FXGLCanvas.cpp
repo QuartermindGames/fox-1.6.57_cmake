@@ -113,39 +113,33 @@ FXbool FXGLCanvas::isShared() const { return sgnext!=this; }
 
 
 // Create X window (GL CANVAS)
-void FXGLCanvas::create()
-{
-	FXWindow::create();
+void FXGLCanvas::create(){
+  FXWindow::create();
 #ifdef HAVE_GL_H
-	if ( !ctx )
-	{
-		void *sharedctx = NULL;
+  if(!ctx){
+    void *sharedctx=NULL;
 
-		// Must have GL info available
-		if ( !visual->getInfo() )
-		{
-			throw FXWindowException( "unable to create GL window." );
-		}
+    // Must have GL info available
+    if(!visual->getInfo()){
+      throw FXWindowException("unable to create GL window.");
+      }
 
-		// Sharing display lists with other context
-		if ( sgnext != this )
-		{
+    // Sharing display lists with other context
+    if(sgnext!=this){
 
-			// Find another member of the group which is already created, and get its context
-			FXGLCanvas *canvas = sgnext;
-			while ( canvas != this )
-			{
-				sharedctx = canvas->ctx;
-				if ( sharedctx ) break;
-				canvas = canvas->sgnext;
-			}
+      // Find another member of the group which is already created, and get its context
+      FXGLCanvas *canvas=sgnext;
+      while(canvas!=this){
+        sharedctx=canvas->ctx;
+        if(sharedctx) break;
+        canvas=canvas->sgnext;
+        }
 
-			// The visuals have to match, the book says...
-			if ( sgnext->getVisual() != canvas->getVisual() )
-			{
-				throw FXWindowException( "unable to create GL window." );
-			}
-		}
+      // The visuals have to match, the book says...
+      if(sgnext->getVisual()!=canvas->getVisual()){
+        throw FXWindowException("unable to create GL window.");
+        }
+      }
 
 		ctx = sharedctx;
 
